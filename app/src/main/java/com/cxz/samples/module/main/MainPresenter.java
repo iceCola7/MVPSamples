@@ -4,9 +4,11 @@ import android.arch.lifecycle.Lifecycle;
 import android.arch.lifecycle.OnLifecycleEvent;
 import android.util.Log;
 
+import com.cxz.samples.base.mvp.BasePresenter;
 import com.cxz.samples.bean.WeatherInfo;
 import com.cxz.samples.event.MessageEvent;
-import com.cxz.samples.base.mvp.BasePresenter;
+import com.cxz.samples.http.RetrofitHelper;
+import com.cxz.samples.http.service.RetrofitService;
 import com.cxz.samples.util.RxUtil;
 
 import org.simple.eventbus.EventBus;
@@ -41,13 +43,14 @@ public class MainPresenter extends BasePresenter<MainContract.Model, MainContrac
 
     @Override
     public void loadWeatherData(String cityId) {
-        addDispose(mModel.loadWeatherData(cityId)
-                .subscribe(new Consumer<WeatherInfo>() {
-                    @Override
-                    public void accept(WeatherInfo weatherInfo) throws Exception {
-                        mView.updateWeather(weatherInfo);
-                    }
-                }));
+//        addDispose(mModel.loadWeatherData(cityId)
+//                .subscribe(new Consumer<WeatherInfo>() {
+//                    @Override
+//                    public void accept(WeatherInfo weatherInfo) throws Exception {
+//                        mView.updateWeather(weatherInfo);
+//                    }
+//                }));
+
 //        addDispose(Observable.interval(1, TimeUnit.SECONDS)
 //                .subscribeOn(Schedulers.io())
 //                .observeOn(AndroidSchedulers.mainThread())
@@ -57,6 +60,16 @@ public class MainPresenter extends BasePresenter<MainContract.Model, MainContrac
 //                        Log.e(TAG, "accept: " + aLong);
 //                    }
 //                }));
+        RetrofitHelper.getInstance().obtainRetrofitService(RetrofitService.class)
+                .getWeatherInfo(cityId)
+                .compose(RxUtil.<WeatherInfo>rxSchedulerTransformer())
+                .compose(mView.<WeatherInfo>bindToLife())
+                .subscribe(new Consumer<WeatherInfo>() {
+                    @Override
+                    public void accept(WeatherInfo weatherInfo) throws Exception {
+                        mView.updateWeather(weatherInfo);
+                    }
+                });
 
         Flowable.interval(1, TimeUnit.SECONDS)
                 .compose(RxUtil.<Long>rxSchedulerTransformer())
