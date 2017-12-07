@@ -7,8 +7,6 @@ import android.util.Log;
 import com.cxz.samples.base.mvp.BasePresenter;
 import com.cxz.samples.bean.WeatherInfo;
 import com.cxz.samples.event.MessageEvent;
-import com.cxz.samples.http.RetrofitHelper;
-import com.cxz.samples.http.service.RetrofitService;
 import com.cxz.samples.util.RxUtil;
 
 import org.simple.eventbus.EventBus;
@@ -20,9 +18,13 @@ import java.util.concurrent.TimeUnit;
 import javax.inject.Inject;
 
 import io.reactivex.Flowable;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.functions.Predicate;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by chenxz on 2017/12/2.
@@ -51,23 +53,28 @@ public class MainPresenter extends BasePresenter<MainContract.Model, MainContrac
 //                    }
 //                }));
 
-//        addDispose(Observable.interval(1, TimeUnit.SECONDS)
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(new Consumer<Long>() {
-//                    @Override
-//                    public void accept(Long aLong) throws Exception {
-//                        Log.e(TAG, "accept: " + aLong);
-//                    }
-//                }));
-        RetrofitHelper.getInstance().obtainRetrofitService(RetrofitService.class)
-                .getWeatherInfo(cityId)
-                .compose(RxUtil.<WeatherInfo>rxSchedulerTransformer())
-                .compose(mView.<WeatherInfo>bindToLife())
-                .subscribe(new Consumer<WeatherInfo>() {
+        mModel.loadWeatherData(cityId, false)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<WeatherInfo>() {
                     @Override
-                    public void accept(WeatherInfo weatherInfo) throws Exception {
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(WeatherInfo weatherInfo) {
                         mView.updateWeather(weatherInfo);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e(TAG, "onError: " + e.getMessage());
+                    }
+
+                    @Override
+                    public void onComplete() {
+
                     }
                 });
 

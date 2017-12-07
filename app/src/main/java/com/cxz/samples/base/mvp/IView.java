@@ -26,6 +26,13 @@ public interface IView {
     void showMessage(String message);
 
     /**
+     * 显示错误信息
+     *
+     * @param msg
+     */
+    void showErrorMsg(String msg);
+
+    /**
      * 绑定生命周期
      */
     <T> LifecycleTransformer<T> bindToLife();
