@@ -39,6 +39,11 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
     }
 
     @Override
+    public void showErrorMsg(String msg) {
+
+    }
+
+    @Override
     protected int attachLayoutRes() {
         return R.layout.activity_main;
     }

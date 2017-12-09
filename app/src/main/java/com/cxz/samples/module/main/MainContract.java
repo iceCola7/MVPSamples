@@ -28,7 +28,7 @@ public interface MainContract {
     interface Model extends IModel {
         Flowable<WeatherInfo> loadWeatherData(String cityId);
 
-        Observable<WeatherInfo> loadWeatherData(String cityId, boolean isUpdate);
+        Flowable<WeatherInfo> loadWeatherData(String cityId, boolean isUpdate);
     }
 
 }

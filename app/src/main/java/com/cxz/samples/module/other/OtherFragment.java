@@ -39,6 +39,11 @@ public class OtherFragment extends BaseFragment<OtherPresenter> implements Other
     }
 
     @Override
+    public void showErrorMsg(String msg) {
+
+    }
+
+    @Override
     protected int attachLayoutRes() {
         return R.layout.fragment_other;
     }

@@ -9,11 +9,11 @@ import com.cxz.samples.http.RetrofitManager;
 import com.cxz.samples.http.cache.CacheProvider;
 import com.cxz.samples.http.service.RetrofitService;
 
+import org.reactivestreams.Publisher;
+
 import javax.inject.Inject;
 
 import io.reactivex.Flowable;
-import io.reactivex.Observable;
-import io.reactivex.ObservableSource;
 import io.reactivex.functions.Function;
 import io.rx_cache2.DynamicKey;
 import io.rx_cache2.EvictDynamicKey;
@@ -38,14 +38,14 @@ public class MainModel extends BaseModel implements MainContract.Model {
     }
 
     @Override
-    public Observable<WeatherInfo> loadWeatherData(final String cityId, final boolean isUpdate) {
+    public Flowable<WeatherInfo> loadWeatherData(final String cityId, final boolean isUpdate) {
 
-        return Observable.just(mRetrofitHelper.obtainRetrofitService(RetrofitService.class).getWeatherInfoWitchCache(cityId))
-                .flatMap(new Function<Observable<WeatherInfo>, ObservableSource<WeatherInfo>>() {
+        return Flowable.just(mRetrofitHelper.obtainRetrofitService(RetrofitService.class).getWeatherInfoWitchCache(cityId))
+                .flatMap(new Function<Flowable<WeatherInfo>, Publisher<WeatherInfo>>() {
                     @Override
-                    public ObservableSource<WeatherInfo> apply(Observable<WeatherInfo> weatherInfoObservable) throws Exception {
+                    public Publisher<WeatherInfo> apply(Flowable<WeatherInfo> weatherInfoFlowable) throws Exception {
                         return mRetrofitHelper.obtainCacheService(CacheProvider.class)
-                                .getWeatherWithCache(weatherInfoObservable, new DynamicKey(cityId), new EvictDynamicKey(isUpdate))
+                                .getWeatherWithCache(weatherInfoFlowable, new DynamicKey(cityId), new EvictDynamicKey(isUpdate))
                                 .map(new Function<Reply<WeatherInfo>, WeatherInfo>() {
                                     @Override
                                     public WeatherInfo apply(Reply<WeatherInfo> weatherInfoReply) throws Exception {

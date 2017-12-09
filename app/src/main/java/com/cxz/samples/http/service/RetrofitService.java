@@ -17,6 +17,6 @@ public interface RetrofitService {
     Flowable<WeatherInfo> getWeatherInfo(@Path("cityId") String cityId);
 
     @GET("adat/sk/{cityId}.html")
-    Observable<WeatherInfo> getWeatherInfoWitchCache(@Path("cityId") String cityId);
+    Flowable<WeatherInfo> getWeatherInfoWitchCache(@Path("cityId") String cityId);
 
 }
