@@ -3,6 +3,7 @@ package com.cxz.samples.http;
 import com.cxz.samples.app.App;
 import com.cxz.samples.http.interceptor.LoggingInterceptor;
 import com.cxz.samples.http.interceptor.RewriteCacheControlInterceptor;
+import com.cxz.samples.http.service.RetrofitService;
 
 import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
@@ -56,6 +57,20 @@ public class RetrofitHelper {
     }
 
     /**
+     * 根据传入的 Class 文件来切换不同的 BaseUrl
+     *
+     * @param service
+     * @return
+     */
+    private String switchBaseUrl(Class service) {
+        String baseUrl = "";
+        if (service.equals(RetrofitService.class)) {
+            baseUrl = APi.WEATHER_HOST;
+        }
+        return baseUrl;
+    }
+
+    /**
      * 根据传入的 Class 获取对应的 Retrofit service
      *
      * @param service
@@ -63,7 +78,7 @@ public class RetrofitHelper {
      * @return
      */
     public <T> T obtainRetrofitService(Class<T> service) {
-        String baseUrl = APi.WEATHER_HOST;
+        String baseUrl = switchBaseUrl(service);
         T retrofitService = (T) mRetrofitServiceCache.get(service.getCanonicalName());
         if (retrofitService == null) {
             synchronized (mRetrofitServiceCache) {
