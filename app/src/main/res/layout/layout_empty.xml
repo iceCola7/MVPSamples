@@ -20,7 +20,7 @@
             android:drawablePadding="10dp"
             android:drawableTop="@mipmap/ic_not_network"
             android:gravity="center"
-            android:text="网络异常，点击重试"
+            android:text="网络异常"
             android:textColor="@color/colorAccent"
             android:textSize="16sp" />
     </FrameLayout>

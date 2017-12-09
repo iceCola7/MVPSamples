@@ -64,12 +64,14 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
 
     @OnClick(R.id.button)
     public void doClick(View view) {
+        showLoading();
         mPresenter.sendMessage();
         mPresenter.loadWeatherData("101010100");
     }
 
     @Override
     public void updateWeather(WeatherInfo weatherInfo) {
+        hideLoading();
         StringBuilder s = new StringBuilder();
         s.append(weatherInfo.getWeatherinfo().getCity()+":")
                 .append(weatherInfo.getWeatherinfo().getTemp());
