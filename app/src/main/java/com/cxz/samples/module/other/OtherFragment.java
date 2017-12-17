@@ -58,7 +58,12 @@ public class OtherFragment extends BaseFragment<OtherPresenter> implements Other
     }
 
     @Override
-    protected void initView(View view, Bundle savedInstanceState) {
+    protected void lazyLoad() {
+
+    }
+
+    @Override
+    protected void initView(Bundle savedInstanceState) {
 
     }
 

@@ -61,12 +61,12 @@ public abstract class BaseActivity<P extends IPresenter> extends RxAppCompatActi
             if (layoutResId != 0) {
                 setContentView(layoutResId);
                 mUnbinder = ButterKnife.bind(this);
+                initInject();
+                initView(savedInstanceState);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        initInject();
-        initView(savedInstanceState);
     }
 
     @Override
