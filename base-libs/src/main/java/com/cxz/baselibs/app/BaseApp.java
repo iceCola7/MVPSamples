@@ -38,6 +38,9 @@ public class BaseApp extends Application {
         return application.mRefWatcher;
     }
 
+    public static Context getContext() {
+        return mContext;
+    }
 
     private ActivityLifecycleCallbacks mCallbacks = new ActivityLifecycleCallbacks() {
 
