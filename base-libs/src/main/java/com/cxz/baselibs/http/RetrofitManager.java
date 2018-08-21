@@ -2,11 +2,18 @@ package com.cxz.baselibs.http;
 
 import com.cxz.baselibs.BuildConfig;
 import com.cxz.baselibs.app.BaseApp;
+import com.cxz.baselibs.http.cert.TrustAllCerts;
+import com.cxz.baselibs.http.cert.TrustAllHostnameVerifier;
 import com.cxz.baselibs.http.interceptor.CacheInterceptor;
 
 import java.io.File;
+import java.security.SecureRandom;
 import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
+
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSocketFactory;
+import javax.net.ssl.TrustManager;
 
 import io.rx_cache2.internal.RxCache;
 import io.victoralbertos.jolyglot.GsonSpeaker;
@@ -112,15 +119,33 @@ public class RetrofitManager {
         } else {
             httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.NONE);
         }
-        mOkHttpClient = builder.retryOnConnectionFailure(true)
-                .addInterceptor(new CacheInterceptor())
+        mOkHttpClient = builder
                 .addInterceptor(httpLoggingInterceptor)
-                .cache(cache)
+                .addInterceptor(new CacheInterceptor())
+                .sslSocketFactory(createSSLSocketFactory(), new TrustAllCerts())// 创建一个证书对象
+                .hostnameVerifier(new TrustAllHostnameVerifier()) // 校验名称,这个对象就是信任所有的主机,也就是信任所有https的请求
+                .cache(cache) // 添加缓存
                 .connectTimeout(DEFAULT_TIME_OUT, TimeUnit.SECONDS)
                 .readTimeout(DEFAULT_TIME_OUT, TimeUnit.SECONDS)
                 .writeTimeout(DEFAULT_TIME_OUT, TimeUnit.SECONDS)
+                .retryOnConnectionFailure(true) // 连接不上是否重连
                 .build();
         return mOkHttpClient;
+    }
+
+    /**
+     * 实现 HTTPS 请求
+     */
+    private SSLSocketFactory createSSLSocketFactory() {
+        SSLSocketFactory sslSocketFactory = null;
+        try {
+            SSLContext sslContext = SSLContext.getInstance("TLS");
+            sslContext.init(null, new TrustManager[]{new TrustAllCerts()}, new SecureRandom());
+            sslSocketFactory = sslContext.getSocketFactory();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return sslSocketFactory;
     }
 
 }
