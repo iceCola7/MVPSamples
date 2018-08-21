@@ -1,0 +1,126 @@
+package com.cxz.baselibs.http;
+
+import com.cxz.baselibs.BuildConfig;
+import com.cxz.baselibs.app.BaseApp;
+import com.cxz.baselibs.http.interceptor.CacheInterceptor;
+
+import java.io.File;
+import java.util.HashMap;
+import java.util.concurrent.TimeUnit;
+
+import io.rx_cache2.internal.RxCache;
+import io.victoralbertos.jolyglot.GsonSpeaker;
+import okhttp3.Cache;
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
+import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
+import retrofit2.converter.gson.GsonConverterFactory;
+
+/**
+ * @author chenxz
+ * @date 2018/8/21
+ * @desc RetrofitManager
+ */
+public class RetrofitManager {
+
+    // 网络请求的超时时间
+    private static final long DEFAULT_TIME_OUT = 30;
+    private OkHttpClient mOkHttpClient;
+    private HashMap<String, Object> mRetrofitService = new HashMap<>();
+    private HashMap<String, Object> mCache = new HashMap<>();
+
+    private RetrofitManager() {
+    }
+
+    private static final class RetrofitManagerHolder {
+        private static final RetrofitManager INSTANCE = new RetrofitManager();
+    }
+
+    public static RetrofitManager getInstance() {
+        return RetrofitManagerHolder.INSTANCE;
+    }
+
+    /**
+     * 根据传入的 Class 获取对应的 Retrofit service
+     *
+     * @param baseUrl
+     * @param service
+     * @param <T>
+     * @return
+     */
+    public <T> T obtainRetrofitService(String baseUrl, Class<T> service) {
+        T retrofitService = (T) mRetrofitService.get(service.getCanonicalName());
+        if (retrofitService == null) {
+            synchronized (RetrofitManager.class) {
+                if (retrofitService == null) {
+                    retrofitService = createRetrofit(baseUrl).create(service);
+                    mRetrofitService.put(service.getCanonicalName(), retrofitService);
+                }
+            }
+        }
+        return retrofitService;
+    }
+
+    private Retrofit createRetrofit(String baseUrl) {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(baseUrl)
+                .client(getOkHttpClient())
+                .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .build();
+        return retrofit;
+    }
+
+    /**
+     * 根据传入的 Class 获取对应的 RxCache service
+     *
+     * @param cache
+     * @param <T>
+     * @return
+     */
+    public <T> T obtainCacheService(Class<T> cache) {
+        T cacheService = (T) mCache.get(cache.getCanonicalName());
+        if (cacheService == null) {
+            synchronized (RetrofitManager.class) {
+                if (cacheService == null) {
+                    cacheService = createCache().using(cache);
+                    mCache.put(cache.getCanonicalName(), cacheService);
+                }
+            }
+        }
+        return cacheService;
+    }
+
+    private RxCache createCache() {
+        RxCache rxCache = new RxCache.Builder()
+                .persistence(BaseApp.getContext().getCacheDir(), new GsonSpeaker());
+        return rxCache;
+    }
+
+    /**
+     * 配置OKHttpClient
+     */
+    private OkHttpClient getOkHttpClient() {
+        OkHttpClient.Builder builder = new OkHttpClient.Builder();
+        File cacheFile = new File(BaseApp.getContext().getCacheDir(), "cache");
+        Cache cache = new Cache(cacheFile, 1024 * 1024 * 50);// 50M 缓存大小
+
+        HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();
+        if (BuildConfig.DEBUG) {
+            httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        } else {
+            httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.NONE);
+        }
+        mOkHttpClient = builder.retryOnConnectionFailure(true)
+                .addInterceptor(new CacheInterceptor())
+                .addInterceptor(httpLoggingInterceptor)
+                .cache(cache)
+                .connectTimeout(DEFAULT_TIME_OUT, TimeUnit.SECONDS)
+                .readTimeout(DEFAULT_TIME_OUT, TimeUnit.SECONDS)
+                .writeTimeout(DEFAULT_TIME_OUT, TimeUnit.SECONDS)
+                .build();
+        return mOkHttpClient;
+    }
+
+}
