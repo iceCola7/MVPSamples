@@ -45,6 +45,7 @@ dependencies {
         exclude module: 'support-v4'
     }
     api rootProject.ext.dependencies["annotations"]
+    api rootProject.ext.dependencies["constraint-layout"]
 
     //rx
     api rootProject.ext.dependencies["rxjava2"]

@@ -27,6 +27,7 @@ ext {
             "cardview-v7"               : "com.android.support:cardview-v7:${version["androidSupportSdkVersion"]}",
             "annotations"               : "com.android.support:support-annotations:${version["androidSupportSdkVersion"]}",
             "recyclerview-v7"           : "com.android.support:recyclerview-v7:${version["androidSupportSdkVersion"]}",
+            "constraint-layout"         : "com.android.support.constraint:constraint-layout:1.1.2",
 
             // network
             "retrofit"                  : "com.squareup.retrofit2:retrofit:${version["retrofitSdkVersion"]}",
@@ -62,7 +63,7 @@ ext {
 
             // test
             "junit"                     : "junit:junit:4.12",
-            "androidJUnitRunner"       : "android.support.test.runner.AndroidJUnitRunner",
+            "androidJUnitRunner"        : "android.support.test.runner.AndroidJUnitRunner",
             "runner"                    : "com.android.support.test:runner:1.0.2",
             "espresso-core"             : "com.android.support.test.espresso:espresso-core:${version["espressoSdkVersion"]}",
             "espresso-contrib"          : "com.android.support.test.espresso:espresso-contrib:${version["espressoSdkVersion"]}",
