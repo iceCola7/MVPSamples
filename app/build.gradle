@@ -2,8 +2,9 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 27
+
     defaultConfig {
-        applicationId "com.cxz.samples"
+        // applicationId "com.cxz.samples"
         minSdkVersion 16
         targetSdkVersion 27
         versionCode 1
@@ -45,8 +46,8 @@ dependencies {
     implementation 'com.github.VictorAlbertos.RxCache:runtime:1.8.3-2.x'
     implementation 'com.github.VictorAlbertos.Jolyglot:gson:0.0.4'
     // dagger2
-    implementation 'com.google.dagger:dagger:2.15'
-    annotationProcessor 'com.google.dagger:dagger-compiler:2.15'
+    implementation 'com.google.dagger:dagger:2.12'
+    annotationProcessor 'com.google.dagger:dagger-compiler:2.12'
     // EventBus
     //implementation 'org.greenrobot:eventbus:3.1.1'
     implementation 'org.simple:androideventbus:1.0.5.1'

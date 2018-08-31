@@ -85,16 +85,16 @@ public abstract class BaseFragment extends RxFragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        initLeakCanary();
+        if (useEventBus()) {
+            EventBus.getDefault().unregister(this);
+        }
         if (mUnbinder != null && mUnbinder != Unbinder.EMPTY) {
             mUnbinder.unbind();
         }
         this.mUnbinder = null;
         this.mContext = null;
         this.mRootView = null;
-        if (useEventBus()) {
-            EventBus.getDefault().unregister(this);
-        }
-        initLeakCanary();
     }
 
     /**

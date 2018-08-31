@@ -4,6 +4,7 @@ android {
     compileSdkVersion 27
 
     defaultConfig {
+        // applicationId "com.cxz.sample"
         minSdkVersion 16
         targetSdkVersion 27
         versionCode 1
@@ -24,6 +25,6 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation project(':base-libs')
     implementation 'com.github.ybq:Android-SpinKit:1.1.0'
+    implementation project(':base-libs')
 }
