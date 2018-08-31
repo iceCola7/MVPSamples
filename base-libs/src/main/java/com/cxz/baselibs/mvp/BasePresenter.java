@@ -48,7 +48,7 @@ public abstract class BasePresenter<M extends IModel, V extends IView> implement
      * 如果要使用 Eventbus 请将此方法返回 true
      */
     protected boolean useEventBus() {
-        return true;
+        return false;
     }
 
     @Override

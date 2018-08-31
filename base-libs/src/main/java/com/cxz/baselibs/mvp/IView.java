@@ -28,9 +28,9 @@ public interface IView {
     /**
      * 显示错误信息
      *
-     * @param msg
+     * @param errorMsg
      */
-    void showErrorMsg(String msg);
+    void showErrorMsg(String errorMsg);
 
     /**
      * 绑定生命周期
