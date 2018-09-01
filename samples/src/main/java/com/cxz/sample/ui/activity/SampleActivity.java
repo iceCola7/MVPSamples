@@ -1,32 +1,46 @@
 package com.cxz.sample.ui.activity;
 
 import android.app.ProgressDialog;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cxz.baselibs.base.BaseMvpActivity;
 import com.cxz.sample.R;
+import com.cxz.sample.event.MessageEvent;
 import com.cxz.sample.mvp.contract.SampleContract;
 import com.cxz.sample.mvp.model.bean.WeatherInfo;
 import com.cxz.sample.mvp.presenter.SamplePresenter;
 import com.cxz.sample.utils.DialogUtil;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 
 public class SampleActivity extends BaseMvpActivity<SamplePresenter> implements SampleContract.View {
 
-    @BindView(R.id.textView)
-    TextView textView;
-    @BindView(R.id.textView2)
-    TextView textView2;
+    @BindView(R.id.tv_result)
+    TextView tv_result;
+    @BindView(R.id.tv_result2)
+    TextView tv_result2;
     private ProgressDialog mDialog;
+
+    @Override
+    public String getCityId() {
+        return "101010100";
+    }
 
     @Override
     protected SamplePresenter createPresenter() {
         return new SamplePresenter();
+    }
+
+    @Override
+    protected boolean useEventBus() {
+        return true;
     }
 
     @Override
@@ -45,9 +59,18 @@ public class SampleActivity extends BaseMvpActivity<SamplePresenter> implements 
     }
 
     @OnClick(R.id.btn_send)
-    public void doClick(View view){
-        Log.e("tag","-----------");
-        mPresenter.getWeatherInfo("101010100");
+    public void doClick(View view) {
+        sendMessage();
+        mPresenter.getWeatherInfo(getCityId());
+    }
+
+    public void sendMessage() {
+        EventBus.getDefault().post(new MessageEvent("message"));
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void showMessage(MessageEvent event) {
+        tv_result2.setText(event.getMessage());
     }
 
     @Override
@@ -76,6 +99,6 @@ public class SampleActivity extends BaseMvpActivity<SamplePresenter> implements 
 
     @Override
     public void showWeatherInfo(WeatherInfo weatherInfo) {
-        textView.setText(weatherInfo.toString());
+        tv_result.setText(weatherInfo.toString());
     }
 }

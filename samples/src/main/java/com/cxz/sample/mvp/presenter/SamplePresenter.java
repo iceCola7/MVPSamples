@@ -1,6 +1,8 @@
 package com.cxz.sample.mvp.presenter;
 
 import android.annotation.SuppressLint;
+import android.arch.lifecycle.Lifecycle;
+import android.arch.lifecycle.OnLifecycleEvent;
 
 import com.cxz.baselibs.http.exception.ExceptionHandle;
 import com.cxz.baselibs.mvp.BasePresenter;
@@ -26,10 +28,15 @@ public class SamplePresenter extends BasePresenter<SampleContract.Model, SampleC
         return new SampleModel();
     }
 
+    @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
+    public void onCreate() {
+        getWeatherInfo(getView().getCityId());
+    }
+
     @SuppressLint("CheckResult")
     @Override
     public void getWeatherInfo(String cityId) {
-        getModel().getWeatherInfo(cityId, false)
+        getModel().getWeatherInfo(cityId, true)
                 .subscribeOn(Schedulers.io())
                 .doOnSubscribe(new Consumer<Subscription>() {
                     @Override

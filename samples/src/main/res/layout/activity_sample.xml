@@ -15,28 +15,26 @@
             android:text="Button" />
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/tv_result"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
             android:text="Hello World!" />
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/tv_result2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
             android:gravity="center_horizontal"
             android:text="TextView" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="200dp" />
 
         <fragment
             android:id="@+id/fragment"
             android:name="com.cxz.sample.ui.fragment.OtherFragment"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp" />
     </LinearLayout>
 
 </FrameLayout>

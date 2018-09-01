@@ -16,6 +16,8 @@ public interface SampleContract {
 
     interface View extends IView {
 
+        String getCityId();
+
         void showWeatherInfo(WeatherInfo weatherInfo);
 
     }
