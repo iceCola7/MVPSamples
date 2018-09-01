@@ -4,15 +4,15 @@ import android.annotation.SuppressLint;
 import android.arch.lifecycle.Lifecycle;
 import android.arch.lifecycle.OnLifecycleEvent;
 
-import com.cxz.baselibs.http.exception.ExceptionHandle;
+import com.cxz.baselibs.http.function.RetryWithDelay;
 import com.cxz.baselibs.mvp.BasePresenter;
+import com.cxz.baselibs.rx.BaseObserver;
 import com.cxz.sample.mvp.contract.SampleContract;
 import com.cxz.sample.mvp.model.SampleModel;
 import com.cxz.sample.mvp.model.bean.WeatherInfo;
 
-import org.reactivestreams.Subscription;
-
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
@@ -38,9 +38,9 @@ public class SamplePresenter extends BasePresenter<SampleContract.Model, SampleC
     public void getWeatherInfo(String cityId) {
         getModel().getWeatherInfo(cityId, true)
                 .subscribeOn(Schedulers.io())
-                .doOnSubscribe(new Consumer<Subscription>() {
+                .doOnSubscribe(new Consumer<Disposable>() {
                     @Override
-                    public void accept(Subscription subscription) throws Exception {
+                    public void accept(Disposable disposable) throws Exception {
                         getView().showLoading();
                     }
                 })
@@ -52,15 +52,11 @@ public class SamplePresenter extends BasePresenter<SampleContract.Model, SampleC
                     }
                 })
                 .compose(getView().<WeatherInfo>bindToLife())
-                .subscribe(new Consumer<WeatherInfo>() {
+                .retryWhen(new RetryWithDelay())
+                .subscribe(new BaseObserver<WeatherInfo>(getView()) {
                     @Override
-                    public void accept(WeatherInfo weatherInfo) throws Exception {
+                    public void onNext(WeatherInfo weatherInfo) {
                         getView().showWeatherInfo(weatherInfo);
-                    }
-                }, new Consumer<Throwable>() {
-                    @Override
-                    public void accept(Throwable throwable) throws Exception {
-                        getView().showErrorMsg(ExceptionHandle.handleException(throwable));
                     }
                 });
 

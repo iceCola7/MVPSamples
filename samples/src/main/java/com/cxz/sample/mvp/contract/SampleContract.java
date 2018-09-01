@@ -5,7 +5,7 @@ import com.cxz.baselibs.mvp.IPresenter;
 import com.cxz.baselibs.mvp.IView;
 import com.cxz.sample.mvp.model.bean.WeatherInfo;
 
-import io.reactivex.Flowable;
+import io.reactivex.Observable;
 
 /**
  * @author chenxz
@@ -30,9 +30,9 @@ public interface SampleContract {
 
     interface Model extends IModel {
 
-        Flowable<WeatherInfo> getWeatherInfo(String cityId);
+        Observable<WeatherInfo> getWeatherInfo(String cityId);
 
-        Flowable<WeatherInfo> getWeatherInfo(String cityId, boolean isUpdate);
+        Observable<WeatherInfo> getWeatherInfo(String cityId, boolean isUpdate);
 
     }
 
