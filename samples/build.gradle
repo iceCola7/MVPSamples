@@ -27,4 +27,8 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.github.ybq:Android-SpinKit:1.1.0'
     implementation project(':base-libs')
+    // View
+    annotationProcessor(rootProject.ext.dependencies["butterknife-compiler"]) {
+        exclude module: 'support-annotations'
+    }
 }
