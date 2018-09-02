@@ -1,9 +1,9 @@
-package com.cxz.sample.http;
+package com.cxz.sample.http.api;
 
 /**
  * @author chenxz
  * @date 2018/8/31
- * @desc
+ * @desc 用于存放 host 以及一些与 http 相关的常量
  */
 public class Api {
 
