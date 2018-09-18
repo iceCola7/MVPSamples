@@ -21,7 +21,7 @@ public class CommonUtils {
      * 根据手机的分辨率从 dp 的单位 转成为 px(像素)
      */
     public static int dp2px(float dpValue) {
-        final float scale = BaseApp.getContext().getResources().getDisplayMetrics().density;
+        final float scale = BaseApp.getInstance().getResources().getDisplayMetrics().density;
         return (int) (dpValue * scale + 0.5f);
     }
 
@@ -104,7 +104,7 @@ public class CommonUtils {
      * @return Resources
      */
     public static Resources getResource() {
-        return BaseApp.getContext().getResources();
+        return BaseApp.getInstance().getResources();
     }
 
     /**

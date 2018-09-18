@@ -20,13 +20,13 @@ public class CacheInterceptor implements Interceptor {
     public Response intercept(Chain chain) throws IOException {
 
         Request request = chain.request();
-        if (!NetworkUtil.isConnected(BaseApp.getContext())) {
+        if (!NetworkUtil.isConnected(BaseApp.getInstance())) {
             request = request.newBuilder()
                     .cacheControl(CacheControl.FORCE_CACHE)
                     .build();
         }
         Response response = chain.proceed(request);
-        if (NetworkUtil.isConnected(BaseApp.getContext())) {
+        if (NetworkUtil.isConnected(BaseApp.getInstance())) {
             int maxAge = 0;
             // 有网络时 设置缓存超时时间0个小时 ,意思就是不读取缓存数据,只对get有用,post没有缓冲
             response.newBuilder()

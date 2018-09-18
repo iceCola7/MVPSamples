@@ -101,7 +101,7 @@ public class RetrofitManager {
 
     private RxCache createCache() {
         RxCache rxCache = new RxCache.Builder()
-                .persistence(BaseApp.getContext().getCacheDir(), new GsonSpeaker());
+                .persistence(BaseApp.getInstance().getCacheDir(), new GsonSpeaker());
         return rxCache;
     }
 
@@ -110,7 +110,7 @@ public class RetrofitManager {
      */
     private OkHttpClient getOkHttpClient() {
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
-        File cacheFile = new File(BaseApp.getContext().getCacheDir(), "cache");
+        File cacheFile = new File(BaseApp.getInstance().getCacheDir(), "cache");
         Cache cache = new Cache(cacheFile, 1024 * 1024 * 50);// 50M 缓存大小
 
         HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();

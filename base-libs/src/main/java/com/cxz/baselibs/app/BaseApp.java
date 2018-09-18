@@ -15,12 +15,12 @@ import com.squareup.leakcanary.RefWatcher;
  */
 public class BaseApp extends Application {
     private RefWatcher mRefWatcher;
-    private static Context mContext;
+    private static BaseApp instance;
 
     @Override
     public void onCreate() {
         super.onCreate();
-        mContext = this;
+        instance = this;
         initLeakCanary();
         registerActivityLifecycleCallbacks(mCallbacks);
     }
@@ -38,8 +38,8 @@ public class BaseApp extends Application {
         return application.mRefWatcher;
     }
 
-    public static Context getContext() {
-        return mContext;
+    public static BaseApp getInstance() {
+        return instance;
     }
 
     private ActivityLifecycleCallbacks mCallbacks = new ActivityLifecycleCallbacks() {
