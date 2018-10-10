@@ -1,6 +1,9 @@
 package com.cxz.sample.app;
 
 import com.cxz.baselibs.app.BaseApp;
+import com.cxz.sample.BuildConfig;
+
+import timber.log.Timber;
 
 /**
  * @author chenxz
@@ -12,5 +15,10 @@ public class App extends BaseApp {
     @Override
     public void onCreate() {
         super.onCreate();
+
+        if (BuildConfig.LOG_DEBUG) {
+            Timber.plant(new Timber.DebugTree());
+        }
+
     }
 }

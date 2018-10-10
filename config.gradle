@@ -56,6 +56,7 @@ ext {
             "multidex"                  : "com.android.support:multidex:1.0.1",
             "javax.annotation"          : "javax.annotation:jsr250-api:1.0",
             "logger"                    : "com.orhanobut:logger:2.2.0",
+            "timber"                    : "com.jakewharton.timber:timber:4.7.0",
 
             //view
             "butterknife"               : "com.jakewharton:butterknife:${version["butterknifeSdkVersion"]}",
