@@ -9,7 +9,7 @@ import android.support.annotation.UiThread;
  * @date 2018/8/20
  * @desc BaseLazyFragment
  */
-public abstract class BaseLazyFragment extends BaseMvpFragment {
+public abstract class BaseLazyFragment extends BaseFragment {
 
     /**
      * Fragment 处理懒加载，为了防止 setUserVisibleHint 进入多次导致数据重复加载

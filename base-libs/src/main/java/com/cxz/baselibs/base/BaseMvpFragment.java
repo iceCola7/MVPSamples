@@ -14,7 +14,7 @@ import com.trello.rxlifecycle2.android.FragmentEvent;
  * @date 2018/8/20
  * @desc BaseMvpFragment
  */
-public abstract class BaseMvpFragment<P extends IPresenter> extends BaseFragment implements IView {
+public abstract class BaseMvpFragment<P extends IPresenter> extends BaseLazyFragment implements IView {
 
     protected P mPresenter;
 
