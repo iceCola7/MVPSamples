@@ -3,7 +3,6 @@ package com.cxz.sample.ui.activity;
 import android.app.ProgressDialog;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.cxz.baselibs.base.BaseMvpActivity;
 import com.cxz.sample.R;
@@ -50,6 +49,7 @@ public class SampleActivity extends BaseMvpActivity<SamplePresenter> implements 
 
     @Override
     protected void initView() {
+        super.initView();
         mDialog = DialogUtil.getWaitDialog(this, "正在加载");
     }
 
@@ -86,15 +86,6 @@ public class SampleActivity extends BaseMvpActivity<SamplePresenter> implements 
     @Override
     public void hideLoading() {
         mDialog.dismiss();
-    }
-
-    @Override
-    public void showMessage(String message) {
-    }
-
-    @Override
-    public void showErrorMsg(String errorMsg) {
-        Toast.makeText(this, errorMsg, Toast.LENGTH_LONG).show();
     }
 
     @Override
