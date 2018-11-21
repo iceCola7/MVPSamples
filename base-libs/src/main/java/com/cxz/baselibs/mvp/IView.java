@@ -23,7 +23,14 @@ public interface IView {
      *
      * @param message
      */
-    void showMessage(String message);
+    void showMsg(String message);
+
+    /**
+     * 使用默认的样式显示信息
+     *
+     * @param msg
+     */
+    void showDefaultMsg(String msg);
 
     /**
      * 显示错误信息

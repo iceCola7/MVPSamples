@@ -6,6 +6,6 @@ package com.cxz.baselibs.mvp;
 
 public interface IModel {
 
-    void onDestroy();
+    void onDetach();
 
 }

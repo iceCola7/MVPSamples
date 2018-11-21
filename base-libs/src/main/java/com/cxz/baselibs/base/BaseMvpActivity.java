@@ -1,10 +1,8 @@
 package com.cxz.baselibs.base;
 
-import android.os.Bundle;
-import android.support.annotation.Nullable;
-
 import com.cxz.baselibs.mvp.BasePresenter;
 import com.cxz.baselibs.mvp.IView;
+import com.cxz.baselibs.widget.CustomToast;
 import com.trello.rxlifecycle2.LifecycleTransformer;
 import com.trello.rxlifecycle2.android.ActivityEvent;
 
@@ -20,12 +18,36 @@ public abstract class BaseMvpActivity<P extends BasePresenter> extends BaseActiv
     protected abstract P createPresenter();
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void initView() {
         mPresenter = createPresenter();
         if (mPresenter != null) {
             mPresenter.attachView(this);
         }
+    }
+
+    @Override
+    public void showLoading() {
+
+    }
+
+    @Override
+    public void hideLoading() {
+
+    }
+
+    @Override
+    public void showDefaultMsg(String msg) {
+        new CustomToast(this, msg).show();
+    }
+
+    @Override
+    public void showErrorMsg(String errorMsg) {
+        new CustomToast(this, errorMsg).show();
+    }
+
+    @Override
+    public void showMsg(String msg) {
+        new CustomToast(this, msg).show();
     }
 
     @Override

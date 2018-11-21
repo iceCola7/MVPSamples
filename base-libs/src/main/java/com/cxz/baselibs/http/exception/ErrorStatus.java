@@ -13,6 +13,10 @@ public class ErrorStatus {
     public static final int SUCCESS = 0;
 
     /**
+     * Token 过期
+     */
+    public static final int TOKEN_INVAILD = 401;
+    /**
      * 未知错误
      */
     public static final int UNKNOWN_ERROR = 1000;
