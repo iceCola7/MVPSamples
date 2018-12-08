@@ -6,7 +6,6 @@ import android.arch.lifecycle.OnLifecycleEvent;
 
 import com.cxz.baselibs.http.function.RetryWithDelay;
 import com.cxz.baselibs.mvp.BasePresenter;
-import com.cxz.baselibs.rx.BaseObserver;
 import com.cxz.sample.mvp.contract.SampleContract;
 import com.cxz.sample.mvp.model.SampleModel;
 import com.cxz.sample.mvp.model.bean.WeatherInfo;
@@ -53,10 +52,15 @@ public class SamplePresenter extends BasePresenter<SampleContract.Model, SampleC
                 })
                 .compose(getView().<WeatherInfo>bindToLife())
                 .retryWhen(new RetryWithDelay())
-                .subscribe(new BaseObserver<WeatherInfo>(getView()) {
+                .subscribe(new Consumer<WeatherInfo>() {
                     @Override
-                    public void onNext(WeatherInfo weatherInfo) {
+                    public void accept(WeatherInfo weatherInfo) throws Exception {
                         getView().showWeatherInfo(weatherInfo);
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+
                     }
                 });
 
