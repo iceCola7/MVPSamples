@@ -19,7 +19,7 @@ public abstract class BaseObserver<T extends BaseBean> extends ResourceObserver<
     private IView mView;
     private String mErrorMsg = "";
 
-    abstract void onSuccess(T t);
+    protected abstract void onSuccess(T t);
 
     public BaseObserver(IView view) {
         this.mView = view;

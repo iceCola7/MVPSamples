@@ -73,7 +73,7 @@ public abstract class BasePresenter<M extends IModel, V extends IView> implement
         }
         unDispose();// 解除订阅
         if (mModel != null)
-            mModel.onDestroy();
+            mModel.onDetach();
         this.mModel = null;
         this.mView = null;
         this.mCompositeDisposable = null;
