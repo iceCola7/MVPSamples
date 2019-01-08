@@ -1,11 +1,13 @@
 package com.cxz.baselibs.bean;
 
+import java.io.Serializable;
+
 /**
  * @author chenxz
  * @date 2018/11/21
  * @desc
  */
-public class BaseBean<T> {
+public class BaseBean<T> implements Serializable {
     private int errorCode;
     private String errorMsg;
     private T data;
@@ -41,5 +43,14 @@ public class BaseBean<T> {
 
     public void setData(T data) {
         this.data = data;
+    }
+
+    @Override
+    public String toString() {
+        return "BaseBean{" +
+                "errorCode=" + errorCode +
+                ", errorMsg='" + errorMsg + '\'' +
+                ", data=" + data +
+                '}';
     }
 }
