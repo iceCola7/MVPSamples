@@ -55,10 +55,8 @@ public abstract class BaseSubscriber<T extends BaseBean> extends ResourceSubscri
         }
         if (mErrorMsg.isEmpty()) {
             mErrorMsg = ExceptionHandle.handleException(e);
-            mView.showDefaultMsg(mErrorMsg);
-        } else {
-            mView.showDefaultMsg(mErrorMsg);
         }
+        mView.showDefaultMsg(mErrorMsg);
     }
 
     @Override
