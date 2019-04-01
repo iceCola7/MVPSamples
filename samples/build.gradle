@@ -32,6 +32,18 @@ android {
 
 }
 
+// 处理support版本和build tools版本的问题，如果运行没有问题则无需配置
+configurations.all {
+    resolutionStrategy.eachDependency { DependencyResolveDetails details ->
+        def requested = details.requested
+        if (requested.group == "com.android.support") {
+            if (!requested.name.startsWith("multidex")) {
+                details.useVersion "27.+"
+            }
+        }
+    }
+}
+
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.github.ybq:Android-SpinKit:1.2.0'
