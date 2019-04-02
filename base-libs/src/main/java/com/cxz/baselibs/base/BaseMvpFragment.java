@@ -30,6 +30,26 @@ public abstract class BaseMvpFragment<P extends IPresenter> extends BaseLazyFrag
     }
 
     @Override
+    public void showLoading() {
+    }
+
+    @Override
+    public void hideLoading() {
+    }
+
+    @Override
+    public void showDefaultMsg(String msg) {
+    }
+
+    @Override
+    public void showErrorMsg(String errorMsg) {
+    }
+
+    @Override
+    public void showMsg(String msg) {
+    }
+
+    @Override
     public void onDestroyView() {
         super.onDestroyView();
         if (mPresenter != null) {
