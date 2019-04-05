@@ -68,7 +68,7 @@ dependencies {
         exclude module: 'rxlifecycle'
     }
     api rootProject.ext.dependencies["rxlifecycle2-components"]
-    api(rootProject.ext.dependencies["rxpermissions2"]) {
+    api(rootProject.ext.dependencies["rxpermissions"]) {
         exclude module: 'rxjava'
         exclude module: 'support-annotations'
     }

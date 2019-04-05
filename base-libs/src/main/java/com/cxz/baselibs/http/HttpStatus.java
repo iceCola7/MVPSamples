@@ -1,11 +1,11 @@
-package com.cxz.baselibs.http.exception;
+package com.cxz.baselibs.http;
 
 /**
  * @author chenxz
  * @date 2018/8/21
- * @desc ErrorStatus
+ * @desc HttpStatus
  */
-public class ErrorStatus {
+public class HttpStatus {
 
     /**
      * 响应成功
@@ -15,7 +15,7 @@ public class ErrorStatus {
     /**
      * Token 过期
      */
-    public static final int TOKEN_INVAILD = 401;
+    public static final int TOKEN_INVALID = 401;
     /**
      * 未知错误
      */

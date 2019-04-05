@@ -2,7 +2,7 @@ package com.cxz.baselibs.rx;
 
 import com.cxz.baselibs.app.BaseApp;
 import com.cxz.baselibs.bean.BaseBean;
-import com.cxz.baselibs.http.exception.ErrorStatus;
+import com.cxz.baselibs.http.HttpStatus;
 import com.cxz.baselibs.http.exception.ExceptionHandle;
 import com.cxz.baselibs.mvp.IView;
 import com.cxz.baselibs.utils.NetworkUtil;
@@ -18,17 +18,32 @@ public abstract class BaseSubscriber<T extends BaseBean> extends ResourceSubscri
 
     private IView mView;
     private String mErrorMsg = "";
-
-    abstract void onSuccess(T t);
+    private boolean bShowLoading = true;
 
     public BaseSubscriber(IView view) {
         this.mView = view;
     }
 
+    public BaseSubscriber(IView view, boolean bShowLoading) {
+        this.mView = view;
+        this.bShowLoading = bShowLoading;
+    }
+
+    /**
+     * 成功的回调
+     */
+    protected abstract void onSuccess(T t);
+
+    /**
+     * 错误的回调
+     */
+    protected void onError(T t) {
+    }
+
     @Override
     protected void onStart() {
         super.onStart();
-        mView.showLoading();
+        if (bShowLoading) mView.showLoading();
         if (!NetworkUtil.isConnected(BaseApp.getInstance())) {
             mView.showDefaultMsg("当前网络不可用，请检查网络设置");
             onComplete();
@@ -37,11 +52,13 @@ public abstract class BaseSubscriber<T extends BaseBean> extends ResourceSubscri
 
     @Override
     public void onNext(T t) {
-        if (t.getErrorCode() == ErrorStatus.SUCCESS) {
+        mView.hideLoading();
+        if (t.getErrorCode() == HttpStatus.SUCCESS) {
             onSuccess(t);
-        } else if (t.getErrorCode() == ErrorStatus.TOKEN_INVAILD) {
-
+        } else if (t.getErrorCode() == HttpStatus.TOKEN_INVALID) {
+            // TODO 处理 token 过期
         } else {
+            onError(t);
             if (!t.getErrorMsg().isEmpty()) {
                 mView.showDefaultMsg(t.getErrorMsg());
             }
