@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 
+import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
 
 import org.greenrobot.eventbus.EventBus;
@@ -24,6 +25,8 @@ public abstract class BaseActivity extends RxAppCompatActivity {
      */
     private Unbinder mUnbinder;
 
+    private RxPermissions rxPermissions;
+
     @LayoutRes
     protected abstract int attachLayoutRes();
 
@@ -38,6 +41,15 @@ public abstract class BaseActivity extends RxAppCompatActivity {
 
     protected boolean useEventBus() {
         return false;
+    }
+
+    /**
+     * 获取权限处理类
+     */
+    protected RxPermissions getRxPermissions() {
+        rxPermissions = new RxPermissions(this);
+        rxPermissions.setLogging(true);
+        return rxPermissions;
     }
 
     @Override

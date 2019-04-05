@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.multidex.MultiDex;
 
 import com.squareup.leakcanary.LeakCanary;
 import com.squareup.leakcanary.RefWatcher;
@@ -32,6 +33,11 @@ public class BaseApp extends Application {
         mRefWatcher = LeakCanary.install(this);
     }
 
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        MultiDex.install(this);
+    }
 
     public static RefWatcher getRefWatcher(Context context) {
         BaseApp application = (BaseApp) context.getApplicationContext();

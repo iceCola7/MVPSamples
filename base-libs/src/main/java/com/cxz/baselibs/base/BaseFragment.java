@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 
 import com.cxz.baselibs.app.BaseApp;
 import com.squareup.leakcanary.RefWatcher;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.trello.rxlifecycle2.components.support.RxFragment;
 
 import org.greenrobot.eventbus.EventBus;
@@ -24,6 +25,7 @@ import butterknife.Unbinder;
 public abstract class BaseFragment extends RxFragment {
 
     protected final String TAG = this.getClass().getSimpleName();
+
     protected View mRootView;
     protected Context mContext;
 
@@ -31,6 +33,8 @@ public abstract class BaseFragment extends RxFragment {
      * 绑定 ButterKnife 时返回的 Unbinder ，用于 ButterKnife 解绑
      */
     private Unbinder mUnbinder;
+
+    private RxPermissions rxPermissions;
 
     @LayoutRes
     protected abstract int attachLayoutRes();
@@ -41,9 +45,17 @@ public abstract class BaseFragment extends RxFragment {
 
     protected abstract void initListener();
 
-
     protected boolean useEventBus() {
         return false;
+    }
+
+    /**
+     * 获取权限处理类
+     */
+    protected RxPermissions getRxPermissions() {
+        rxPermissions = new RxPermissions(getActivity());
+        rxPermissions.setLogging(true);
+        return rxPermissions;
     }
 
     @Override

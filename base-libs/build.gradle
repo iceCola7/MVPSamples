@@ -107,5 +107,6 @@ dependencies {
     api rootProject.ext.dependencies["eventbus"]
     api rootProject.ext.dependencies["logger"]
     api rootProject.ext.dependencies["timber"]
+    api rootProject.ext.dependencies["multidex"]
 
 }
