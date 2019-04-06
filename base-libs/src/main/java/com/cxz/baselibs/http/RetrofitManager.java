@@ -5,6 +5,8 @@ import com.cxz.baselibs.app.BaseApp;
 import com.cxz.baselibs.http.cert.TrustAllCerts;
 import com.cxz.baselibs.http.cert.TrustAllHostnameVerifier;
 import com.cxz.baselibs.http.interceptor.CacheInterceptor;
+import com.cxz.baselibs.http.interceptor.CookieInterceptor;
+import com.cxz.baselibs.http.interceptor.HeaderInterceptor;
 
 import java.io.File;
 import java.security.SecureRandom;
@@ -121,6 +123,8 @@ public class RetrofitManager {
         }
         mOkHttpClient = builder
                 .addInterceptor(httpLoggingInterceptor)
+                .addInterceptor(new HeaderInterceptor())
+                .addInterceptor(new CookieInterceptor())
                 .addInterceptor(new CacheInterceptor())
                 .sslSocketFactory(createSSLSocketFactory(), new TrustAllCerts())// 创建一个证书对象
                 .hostnameVerifier(new TrustAllHostnameVerifier()) // 校验名称,这个对象就是信任所有的主机,也就是信任所有https的请求
