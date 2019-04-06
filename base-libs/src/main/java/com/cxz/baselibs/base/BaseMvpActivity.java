@@ -42,12 +42,12 @@ public abstract class BaseMvpActivity<P extends BasePresenter> extends BaseActiv
 
     @Override
     public void showErrorMsg(String errorMsg) {
-        new CustomToast(this, errorMsg).show();
+        showDefaultMsg(errorMsg);
     }
 
     @Override
     public void showMsg(String msg) {
-        new CustomToast(this, msg).show();
+        showDefaultMsg(msg);
     }
 
     @Override

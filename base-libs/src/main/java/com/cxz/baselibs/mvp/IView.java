@@ -21,9 +21,9 @@ public interface IView {
     /**
      * 显示信息
      *
-     * @param message
+     * @param msg
      */
-    void showMsg(String message);
+    void showMsg(String msg);
 
     /**
      * 使用默认的样式显示信息

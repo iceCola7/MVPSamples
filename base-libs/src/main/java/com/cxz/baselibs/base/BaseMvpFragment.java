@@ -6,6 +6,7 @@ import android.view.View;
 
 import com.cxz.baselibs.mvp.IPresenter;
 import com.cxz.baselibs.mvp.IView;
+import com.cxz.baselibs.widget.CustomToast;
 import com.trello.rxlifecycle2.LifecycleTransformer;
 import com.trello.rxlifecycle2.android.FragmentEvent;
 
@@ -39,14 +40,17 @@ public abstract class BaseMvpFragment<P extends IPresenter> extends BaseLazyFrag
 
     @Override
     public void showDefaultMsg(String msg) {
+        new CustomToast(getActivity(), msg).show();
     }
 
     @Override
     public void showErrorMsg(String errorMsg) {
+        showDefaultMsg(errorMsg);
     }
 
     @Override
     public void showMsg(String msg) {
+        showDefaultMsg(msg);
     }
 
     @Override
