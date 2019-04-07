@@ -9,6 +9,6 @@ public class Api {
 
     public static final String WEATHER_HOST = "http://www.weather.com.cn/";
 
-    public static final String WAN_ANDROID_HOST = "http://www.wanandroid.com";
+    public static final String WAN_ANDROID_HOST = "https://www.wanandroid.com";
 
 }

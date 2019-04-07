@@ -1,10 +1,14 @@
 package com.cxz.sample.http.service;
 
-import com.cxz.sample.mvp.model.bean.WeatherInfo;
+import com.cxz.baselibs.bean.BaseBean;
+import com.cxz.sample.mvp.model.bean.BannerListBean;
+import com.cxz.sample.mvp.model.bean.CollectListBean;
 
-import io.reactivex.Flowable;
 import io.reactivex.Observable;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 import retrofit2.http.Path;
 
 /**
@@ -14,10 +18,29 @@ import retrofit2.http.Path;
  */
 public interface RetrofitService {
 
-    @GET("adat/sk/{cityId}.html")
-    Observable<WeatherInfo> getWeatherInfo(@Path("cityId") String cityId);
+    /**
+     * 登录
+     */
+    @POST("user/login")
+    @FormUrlEncoded
+    Observable<BaseBean> login(@Field("username") String username, @Field("password") String password);
 
-    @GET("adat/sk/{cityId}.html")
-    Observable<WeatherInfo> getWeatherInfoWitchCache(@Path("cityId") String cityId);
+    /**
+     * 退出登录
+     */
+    @GET("user/logout/json")
+    Observable<BaseBean> logout();
+
+    /**
+     * 轮播列表数据
+     */
+    @GET("banner/json")
+    Observable<BannerListBean> getBannerList();
+
+    /**
+     * 收藏列表数据
+     */
+    @GET("lg/collect/list/{page}/json")
+    Observable<CollectListBean> getCollectList(@Path("page") int page);
 
 }

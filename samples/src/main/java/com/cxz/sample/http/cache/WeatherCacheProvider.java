@@ -1,6 +1,6 @@
 package com.cxz.sample.http.cache;
 
-import com.cxz.sample.mvp.model.bean.BannerListBean;
+import com.cxz.sample.mvp.model.bean.WeatherInfo;
 
 import java.util.concurrent.TimeUnit;
 
@@ -15,9 +15,9 @@ import io.rx_cache2.Reply;
  * @date 2018/8/31
  * @desc
  */
-public interface CacheProvider {
+public interface WeatherCacheProvider {
 
     @LifeCache(duration = 2, timeUnit = TimeUnit.MINUTES)
-    Observable<Reply<BannerListBean>> getBannerWithCache(Observable<BannerListBean> o, DynamicKey dynamicKey, EvictDynamicKey evictDynamicKey);
+    Observable<Reply<WeatherInfo>> getWeatherWithCache(Observable<WeatherInfo> o, DynamicKey dynamicKey, EvictDynamicKey evictDynamicKey);
 
 }
