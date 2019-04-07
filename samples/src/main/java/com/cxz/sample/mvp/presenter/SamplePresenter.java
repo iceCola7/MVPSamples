@@ -4,10 +4,14 @@ import android.annotation.SuppressLint;
 import android.arch.lifecycle.Lifecycle;
 import android.arch.lifecycle.OnLifecycleEvent;
 
+import com.cxz.baselibs.bean.BaseBean;
 import com.cxz.baselibs.http.function.RetryWithDelay;
 import com.cxz.baselibs.mvp.BasePresenter;
+import com.cxz.baselibs.rx.BaseObserver;
 import com.cxz.sample.mvp.contract.SampleContract;
 import com.cxz.sample.mvp.model.SampleModel;
+import com.cxz.sample.mvp.model.bean.BannerListBean;
+import com.cxz.sample.mvp.model.bean.CollectListBean;
 import com.cxz.sample.mvp.model.bean.WeatherInfo;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -21,7 +25,9 @@ import io.reactivex.schedulers.Schedulers;
  * @date 2018/8/31
  * @desc
  */
-public class SamplePresenter extends BasePresenter<SampleContract.Model, SampleContract.View> implements SampleContract.Presenter {
+public class SamplePresenter extends BasePresenter<SampleContract.Model, SampleContract.View>
+        implements SampleContract.Presenter {
+
     @Override
     protected SampleContract.Model createModel() {
         return new SampleModel();
@@ -65,4 +71,54 @@ public class SamplePresenter extends BasePresenter<SampleContract.Model, SampleC
                 });
 
     }
+
+    @Override
+    public void login(String username, String password) {
+        getModel().login(username, password)
+                .compose(getView().<BaseBean>bindToLife())
+                .subscribe(new BaseObserver<BaseBean>(getView()) {
+                    @Override
+                    protected void onSuccess(BaseBean baseBean) {
+                        getView().loginSuccess();
+                    }
+                });
+    }
+
+    @Override
+    public void getBannerList() {
+        getModel().getBannerList(true)
+                .compose(getView().<BannerListBean>bindToLife())
+                .retryWhen(new RetryWithDelay())
+                .subscribe(new BaseObserver<BannerListBean>(getView()) {
+                    @Override
+                    protected void onSuccess(BannerListBean bannerListBean) {
+                        getView().showBannerList(bannerListBean.getData());
+                    }
+                });
+    }
+
+    @Override
+    public void getCollectList(int page) {
+        getModel().getCollectList(page)
+                .compose(getView().<CollectListBean>bindToLife())
+                .subscribe(new BaseObserver<CollectListBean>(getView()) {
+                    @Override
+                    protected void onSuccess(CollectListBean collectListBean) {
+                        getView().showCollectList(collectListBean.getData());
+                    }
+                });
+    }
+
+    @Override
+    public void logout() {
+        getModel().logout()
+                .compose(getView().<BaseBean>bindToLife())
+                .subscribe(new BaseObserver<BaseBean>(getView()) {
+                    @Override
+                    protected void onSuccess(BaseBean baseBean) {
+                        getView().logoutSuccess();
+                    }
+                });
+    }
+
 }
