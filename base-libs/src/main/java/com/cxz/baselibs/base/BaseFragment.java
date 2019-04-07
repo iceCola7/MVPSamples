@@ -53,7 +53,7 @@ public abstract class BaseFragment extends RxFragment {
      * 获取权限处理类
      */
     protected RxPermissions getRxPermissions() {
-        rxPermissions = new RxPermissions(getActivity());
+        rxPermissions = new RxPermissions(this);
         rxPermissions.setLogging(true);
         return rxPermissions;
     }
