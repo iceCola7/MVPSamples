@@ -1,7 +1,6 @@
 package com.cxz.sample.ui.activity;
 
 import android.Manifest;
-import android.app.ProgressDialog;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
@@ -17,7 +16,7 @@ import com.cxz.sample.mvp.model.bean.BannerListBean;
 import com.cxz.sample.mvp.model.bean.CollectListBean;
 import com.cxz.sample.mvp.model.bean.WeatherInfo;
 import com.cxz.sample.mvp.presenter.SamplePresenter;
-import com.cxz.sample.utils.DialogUtil;
+import com.qmuiteam.qmui.widget.dialog.QMUITipDialog;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -31,7 +30,7 @@ import io.reactivex.functions.Consumer;
 
 public class SampleActivity extends BaseMvpActivity<SamplePresenter> implements SampleContract.View {
 
-    private ProgressDialog mProgressDialog;
+    private QMUITipDialog mDialog;
 
     @BindView(R.id.tv_result)
     TextView tvResult;
@@ -61,12 +60,12 @@ public class SampleActivity extends BaseMvpActivity<SamplePresenter> implements 
 
     @Override
     public void showLoading() {
-        mProgressDialog.show();
+        mDialog.show();
     }
 
     @Override
     public void hideLoading() {
-        mProgressDialog.dismiss();
+        mDialog.dismiss();
     }
 
     @Override
@@ -77,7 +76,10 @@ public class SampleActivity extends BaseMvpActivity<SamplePresenter> implements 
     @Override
     protected void initView() {
         super.initView();
-        mProgressDialog = DialogUtil.getWaitDialog(this, "正在加载");
+        mDialog = new QMUITipDialog.Builder(this)
+                .setIconType(QMUITipDialog.Builder.ICON_TYPE_LOADING)
+                .setTipWord("正在加载")
+                .create();
     }
 
     @Override
