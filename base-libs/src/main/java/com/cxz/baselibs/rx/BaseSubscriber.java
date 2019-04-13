@@ -67,6 +67,7 @@ public abstract class BaseSubscriber<T extends BaseBean> extends ResourceSubscri
 
     @Override
     public void onError(Throwable e) {
+        mView.hideLoading();
         if (mView == null) {
             throw new RuntimeException("mView can not be null");
         }

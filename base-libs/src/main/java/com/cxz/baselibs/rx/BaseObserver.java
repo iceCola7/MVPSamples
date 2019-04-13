@@ -2,8 +2,8 @@ package com.cxz.baselibs.rx;
 
 import com.cxz.baselibs.app.BaseApp;
 import com.cxz.baselibs.bean.BaseBean;
-import com.cxz.baselibs.http.exception.ExceptionHandle;
 import com.cxz.baselibs.http.HttpStatus;
+import com.cxz.baselibs.http.exception.ExceptionHandle;
 import com.cxz.baselibs.mvp.IView;
 import com.cxz.baselibs.utils.NetworkUtil;
 
@@ -67,6 +67,7 @@ public abstract class BaseObserver<T extends BaseBean> extends ResourceObserver<
 
     @Override
     public void onError(Throwable e) {
+        mView.hideLoading();
         if (mView == null) {
             throw new RuntimeException("mView can not be null");
         }

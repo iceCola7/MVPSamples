@@ -57,7 +57,7 @@ public class CookieInterceptor implements Interceptor {
         }
 
         int last = sb.lastIndexOf(";");
-        if (sb.length() - 1 == last) {
+        if (last != -1 && sb.length() - 1 == last) {
             sb.deleteCharAt(last);
         }
         return sb.toString();
