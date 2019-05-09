@@ -43,5 +43,5 @@ dependencies {
         exclude module: 'support-annotations'
     }
     // qmui
-    implementation 'com.qmuiteam:qmui:1.1.7'
+    implementation 'com.qmuiteam:qmui:1.2.0'
 }
