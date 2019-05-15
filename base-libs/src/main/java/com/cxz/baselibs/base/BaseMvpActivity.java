@@ -1,5 +1,7 @@
 package com.cxz.baselibs.base;
 
+import android.os.Bundle;
+
 import com.cxz.baselibs.mvp.BasePresenter;
 import com.cxz.baselibs.mvp.IView;
 import com.cxz.baselibs.widget.CustomToast;
@@ -18,7 +20,7 @@ public abstract class BaseMvpActivity<P extends BasePresenter> extends BaseActiv
     protected abstract P createPresenter();
 
     @Override
-    protected void initView() {
+    protected void initView(Bundle savedInstanceState) {
         mPresenter = createPresenter();
         if (mPresenter != null) {
             mPresenter.attachView(this);

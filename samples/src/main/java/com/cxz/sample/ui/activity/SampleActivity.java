@@ -1,6 +1,7 @@
 package com.cxz.sample.ui.activity;
 
 import android.Manifest;
+import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
@@ -74,8 +75,8 @@ public class SampleActivity extends BaseMvpActivity<SamplePresenter> implements 
     }
 
     @Override
-    protected void initView() {
-        super.initView();
+    protected void initView(Bundle savedInstanceState) {
+        super.initView(savedInstanceState);
         mDialog = new QMUITipDialog.Builder(this)
                 .setIconType(QMUITipDialog.Builder.ICON_TYPE_LOADING)
                 .setTipWord("正在加载")
